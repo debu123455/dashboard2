@@ -16,12 +16,21 @@ app.use(express.json());
 
 async function connectDatabase() {
   const mongoUri = process.env.MONGODB_URI || "mongodb+srv://ledonet974_db_user:UUNgVxlBfIcixTtc@dashboard.amun1q1.mongodb.net/?appName=dashboard";
-  await mongoose.connect(mongoUri);
-  console.log("MongoDB connected");
+  try {
+    await mongoose.connect(mongoUri);
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection error:", error.message);
+    throw error;
+  }
 }
 
+app.get("/", (_req, res) => {
+  res.json({ status: "running", message: "IT Dashboard API is running", endpoints: ["/api/health", "/api/dashboard", "/api/tickets"] });
+});
+
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", service: " IT Dashboard API" });
+  res.json({ status: "ok", service: "IT Dashboard API", timestamp: new Date().toISOString() });
 });
 
 function buildTicketCode() {
