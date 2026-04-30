@@ -10,11 +10,12 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:5173";
+app.use(cors({ origin: corsOrigin }));
 app.use(express.json());
 
 async function connectDatabase() {
-  const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/acolyte_dashboard";
+  const mongoUri = process.env.MONGODB_URI || "mongodb+srv://ledonet974_db_user:UUNgVxlBfIcixTtc@dashboard.amun1q1.mongodb.net/?appName=dashboard";
   await mongoose.connect(mongoUri);
   console.log("MongoDB connected");
 }
