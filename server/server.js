@@ -111,6 +111,15 @@ app.get("/api/dashboard", async (req, res, next) => {
   }
 });
 
+app.get("/api/tickets", async (req, res, next) => {
+  try {
+    const tickets = await Ticket.find();
+    res.json(tickets);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.post("/api/tickets", async (req, res, next) => {
   try {
     const ticket = await Ticket.create({
